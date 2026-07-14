@@ -101,7 +101,7 @@
         /* Sticky Navigation Menu Tabs */
         .tabs-nav-container {
             position: sticky;
-            top: -20px; /* Aligns comfortably at the top on scroll */
+            top: 0;
             background-color: var(--bg-color);
             z-index: 100;
             margin-left: -24px;
@@ -144,7 +144,7 @@
 
         /* Menu Section & Scroll Offset */
         .menu-category-panel {
-            scroll-margin-top: 100px; /* Prevents sticky header from overlapping section title when clicked */
+            scroll-margin-top: 85px; /* Matches the sticky nav's height so section titles don't land underneath it */
             padding-top: 30px;
             border-bottom: 2px dashed #E2E1DD;
             padding-bottom: 25px;
@@ -245,7 +245,7 @@
         </div>
 
         <div class="logo-section">
-            <img class="logo-img" src="Logo.png" alt="Bollywood Treats">
+            <img class="logo-img" src="logo.png" alt="Bollywood Treats">
         </div>
 
         <!-- Sticky Scroll-Spy Navigation Tabs -->
@@ -561,7 +561,15 @@
             * Jain / Vegan options are also available. Ask our server!
         </div>
 
-        
+        <div class="footer-graphics">
+            <svg class="footer-graphic-item" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-1 14H6v-2h12v2zm0-4H6V7h12v6z"/>
+            </svg>
+            <svg class="footer-graphic-item" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M4 4h16v3l-3-3h-2l3 3h-3l-3-3H8l3 3H8L5 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2H4zm16 14H4V9h16v9z"/>
+            </svg>
+        </div>
+    </div>
 
     <!-- JavaScript: scroll-spy only. Tab clicks are handled natively via
          <a href="#id"> anchors + the global `scroll-behavior: smooth`,
