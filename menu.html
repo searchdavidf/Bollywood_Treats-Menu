@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bollywood Treats - Digital Menu</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --bg-color: #F8F7F3;       
+            --orange-accent: #F18524;  
+            --veg-green: #2D8942;      
+            --dark-charcoal: #1C1B1A;  
+            --white: #FFFFFF;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #E6E5E0; 
+            color: var(--dark-charcoal);
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .menu-container {
+            width: 100%;
+            max-width: 580px; 
+            background-color: var(--bg-color);
+            border-left: 12px solid var(--orange-accent); 
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            border-radius: 4px;
+            position: relative;
+            padding: 30px 24px;
+        }
+
+        .top-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .back-link {
+            color: var(--dark-charcoal);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .back-link:hover {
+            color: var(--orange-accent);
+        }
+
+        .veg-symbol {
+            width: 28px;
+            height: 28px;
+            border: 2px solid var(--veg-green);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: var(--white);
+        }
+
+        .veg-dot {
+            width: 14px;
+            height: 14px;
+            background-color: var(--veg-green);
+            border-radius: 50%;
+        }
+
+        .logo-section {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .logo-img {
+            max-width: 65%;
+            height: auto;
+            object-fit: contain;
+        }
+
+        /* Sticky Navigation Menu Tabs */
+        .tabs-nav-container {
+            position: sticky;
+            top: -20px; /* Aligns comfortably at the top on scroll */
+            background-color: var(--bg-color);
+            z-index: 100;
+            margin-left: -24px;
+            margin-right: -24px;
+            padding: 15px 24px;
+            border-bottom: 2px solid #EDECE7;
+            box-shadow: 0 4px 6px -6px rgba(0,0,0,0.1);
+        }
+
+        .tabs-nav {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            scrollbar-width: none; /* Hide scrollbar Firefox */
+        }
+
+        .tabs-nav::-webkit-scrollbar {
+            display: none; /* Hide scrollbar Chrome/Safari */
+        }
+
+        .tab-btn {
+            background-color: #EDECE7;
+            color: var(--dark-charcoal);
+            text-decoration: none;
+            display: inline-block;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 0.8rem;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.2s ease;
+        }
+
+        .tab-btn.active {
+            background-color: var(--orange-accent);
+            color: var(--white);
+        }
+
+        /* Menu Section & Scroll Offset */
+        .menu-category-panel {
+            scroll-margin-top: 100px; /* Prevents sticky header from overlapping section title when clicked */
+            padding-top: 30px;
+            border-bottom: 2px dashed #E2E1DD;
+            padding-bottom: 25px;
+        }
+
+        .menu-category-panel:last-of-type {
+            border-bottom: none;
+        }
+
+        .category-title {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--orange-accent);
+            text-transform: uppercase;
+            padding-bottom: 8px;
+            margin-bottom: 20px;
+        }
+
+        .menu-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .menu-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px dashed #EDECE7;
+            padding-bottom: 10px;
+        }
+
+        .item-info {
+            flex-grow: 1;
+        }
+
+        .item-name {
+            font-weight: 700;
+            font-size: 0.95rem;
+            color: var(--dark-charcoal);
+        }
+
+        .item-price {
+            font-weight: 800;
+            font-size: 1rem;
+            color: var(--orange-accent);
+            margin-left: 15px;
+            white-space: nowrap;
+        }
+
+        .item-subtext {
+            font-size: 0.75rem;
+            color: #666;
+            margin-top: 3px;
+            line-height: 1.4;
+        }
+
+        /* Special Disclaimers */
+        .notice-banner {
+            font-size: 0.75rem;
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            margin-top: 35px;
+            line-height: 1.5;
+        }
+
+        .footer-graphics {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-top: 30px;
+            border-top: 2px dashed #E2E1DD;
+            padding-top: 20px;
+        }
+
+        .footer-graphic-item {
+            width: 45px;
+            height: 45px;
+            opacity: 0.85;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="menu-container">
+        <div class="top-header">
+            <a href="index.html" class="back-link">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+                Back to Home
+            </a>
+            <div class="veg-symbol" title="100% Vegetarian">
+                <div class="veg-dot"></div>
+            </div>
+        </div>
+
+        <div class="logo-section">
+            <img class="logo-img" src="logo.png" alt="Bollywood Treats">
+        </div>
+
+        <!-- Sticky Scroll-Spy Navigation Tabs -->
+        <div class="tabs-nav-container">
+            <div class="tabs-nav" id="tabsNav">
+                <a class="tab-btn active" data-target="chaat" href="#chaat">Chaat & Snacks</a>
+                <a class="tab-btn" data-target="mains" href="#mains">Gravy & Greens</a>
+                <a class="tab-btn" data-target="tandoor" href="#tandoor">Tandoori Treasures</a>
+                <a class="tab-btn" data-target="south" href="#south">Chennai Express</a>
+                <a class="tab-btn" data-target="combos" href="#combos">Combos & Rice</a>
+                <a class="tab-btn" data-target="drinks" href="#drinks">Sips & Chai</a>
+                <a class="tab-btn" data-target="kids-weekend" href="#kids-weekend">Kids & Weekend</a>
+            </div>
+        </div>
+
+        <!-- 1. CHAAT & QUICK BITES -->
+        <div id="chaat" class="menu-category-panel">
+            <h3 class="category-title">Chatkaro Ki Toli (Chaat)</h3>
+            <div class="menu-grid">
+                <div class="menu-item"><div class="item-info"><span class="item-name">Pani Puri Aata (6 pcs)</span></div><span class="item-price">AED 10</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Pani Puri Suji (6 pcs)</span></div><span class="item-price">AED 12</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Dahi Puri</span></div><span class="item-price">AED 11</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Sev Puri</span></div><span class="item-price">AED 11</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Bhel Puri</span></div><span class="item-price">AED 11</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Raj Kachori</span></div><span class="item-price">AED 16</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Papdi Chaat</span></div><span class="item-price">AED 11</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Bhalla Papdi</span></div><span class="item-price">AED 11</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Aloo Tikki with Chhole (1 pc)</span></div><span class="item-price">AED 12</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Aloo Tikki w/o Chhole (2 pcs)</span></div><span class="item-price">AED 12</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Dahi Bhalla</span></div><span class="item-price">AED 11</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Samosa Chaat</span></div><span class="item-price">AED 12</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Chaat Platter</span></div><span class="item-price">AED 24</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Palak Patta Chaat</span></div><span class="item-price">AED 10</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Basket Chaat</span></div><span class="item-price">AED 12</span></div>
+            </div>
+
+            <h3 class="category-title" style="margin-top: 30px;">Quick Bites</h3>
+            <div class="menu-grid">
+                <div class="menu-item"><div class="item-info"><span class="item-name">Samosa (2 pcs)</span></div><span class="item-price">AED 7</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Aloo Bonda (2 pcs)</span></div><span class="item-price">AED 7</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Vada Pav</span></div><span class="item-price">AED 7</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Samosa Pav</span></div><span class="item-price">AED 8</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Bread Pakora</span></div><span class="item-price">AED 8</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Mirchi Vada</span></div><span class="item-price">AED 6</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Onion Bhajiya</span></div><span class="item-price">AED 8</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Jhal Muri</span></div><span class="item-price">AED 8</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Plain Maggie</span></div><span class="item-price">AED 8</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Vegetable Maggie</span></div><span class="item-price">AED 10</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Cheese Veg Maggie</span></div><span class="item-price">AED 12</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Veg Momos (6 pcs)</span></div><span class="item-price">AED 12</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Paneer Pakoda</span></div><span class="item-price">AED 12</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Matar Kachori (2 pcs)</span></div><span class="item-price">AED 7</span></div>
+            </div>
+        </div>
+
+        <!-- 2. GRAVY & GREENS -->
+        <div id="mains" class="menu-category-panel">
+            <h3 class="category-title">Gravy & Greens (Main Course)</h3>
+            <div class="menu-grid">
+                <div class="menu-item"><div class="item-info"><span class="item-name">Paneer Lababdar</span></div><span class="item-price">AED 24</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Kadhai Paneer</span></div><span class="item-price">AED 24</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Paneer Do Pyaza</span></div><span class="item-price">AED 24</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Paneer Tikka Masala</span></div><span class="item-price">AED 28</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Palak Paneer</span></div><span class="item-price">AED 24</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Matar Paneer</span></div><span class="item-price">AED 24</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Shahi Paneer</span></div><span class="item-price">AED 25</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Malai Kofta</span></div><span class="item-price">AED 26</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Methi Matar Malai</span></div><span class="item-price">AED 24</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Masala Mushroom</span></div><span class="item-price">AED 24</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Mushroom Takatak</span></div><span class="item-price">AED 24</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Matar Mushroom</span></div><span class="item-price">AED 24</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Veg Handi</span></div><span class="item-price">AED 24</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Veg Jhalfrezi</span></div><span class="item-price">AED 24</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Aloo Gobhi</span></div><span class="item-price">AED 15</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Jeera Aloo</span></div><span class="item-price">AED 13</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Bhindi Do Pyaza</span></div><span class="item-price">AED 18</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Baigan Bharta</span></div><span class="item-price">AED 15</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Paneer Bhurji</span></div><span class="item-price">AED 21</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Dal Makhani</span></div><span class="item-price">AED 22</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Panchratna Dal</span></div><span class="item-price">AED 21</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Yellow Dal Fry</span></div><span class="item-price">AED 20</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Kadhi Pakora</span></div><span class="item-price">AED 18</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Plain Kadhi</span></div><span class="item-price">AED 16</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Rajma</span></div><span class="item-price">AED 16</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Chhole</span></div><span class="item-price">AED 16</span></div>
+            </div>
+        </div>
+
+        <!-- 3. TANDOORI TREASURES & BREADS -->
+        <div id="tandoor" class="menu-category-panel">
+            <h3 class="category-title">Appetite Awakeners (Starters)</h3>
+            <div class="menu-grid">
+                <div class="menu-item"><div class="item-info"><span class="item-name">Hara Bhara Kabab</span></div><span class="item-price">AED 23</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Paneer Tikka</span></div><span class="item-price">AED 24</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Crispy Corn</span></div><span class="item-price">AED 13</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Masala Papad</span></div><span class="item-price">AED 8</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Afghani Soya Chaap</span></div><span class="item-price">AED 20</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Malai Soya Chaap</span></div><span class="item-price">AED 22</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Mushroom Tikka Masala</span></div><span class="item-price">AED 20</span></div>
+            </div>
+
+            <h3 class="category-title" style="margin-top: 30px;">Tandoori Breads</h3>
+            <div class="menu-grid">
+                <div class="menu-item"><div class="item-info"><span class="item-name">Tawa Roti / Butter Roti</span></div><span class="item-price">AED 2 / 3</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Plain Naan / Butter Naan</span></div><span class="item-price">AED 4 / 5</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Garlic Naan</span></div><span class="item-price">AED 6</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Tandoori Roti / Butter Roti</span></div><span class="item-price">AED 3.50 / 4</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Lachha Paratha</span></div><span class="item-price">AED 6</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Missi Roti</span></div><span class="item-price">AED 4.50</span></div>
+            </div>
+
+            <h3 class="category-title" style="margin-top: 30px;">Stuffed Kulcha</h3>
+            <div class="menu-grid">
+                <div class="menu-item"><div class="item-info"><span class="item-name">Cheese Kulcha</span></div><span class="item-price">AED 12</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Paneer Kulcha</span></div><span class="item-price">AED 11</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Gobhi Kulcha</span></div><span class="item-price">AED 10</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Aloo Kulcha</span></div><span class="item-price">AED 10</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Onion Kulcha</span></div><span class="item-price">AED 10</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Mix Stuffed Kulcha</span></div><span class="item-price">AED 11</span></div>
+            </div>
+        </div>
+
+        <!-- 4. CHENNAI EXPRESS & SOUPS -->
+        <div id="south" class="menu-category-panel">
+            <h3 class="category-title">Chennai Express (South Indian)</h3>
+            <div class="menu-grid">
+                <div class="menu-item"><div class="item-info"><span class="item-name">Idli (2 pcs)</span></div><span class="item-price">AED 8</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Sambar Vada (2 pcs)</span></div><span class="item-price">AED 11</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Medhu Vada (2 pcs)</span></div><span class="item-price">AED 10</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Plain Dosa</span></div><span class="item-price">AED 10</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Masala Dosa</span></div><span class="item-price">AED 13</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Onion Dosa</span></div><span class="item-price">AED 12</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Onion Masala Dosa</span></div><span class="item-price">AED 14</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Onion Cheese Dosa</span></div><span class="item-price">AED 15</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Paneer Masala Dosa</span></div><span class="item-price">AED 15</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Paneer Cheese Dosa</span></div><span class="item-price">AED 16</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Schezwan Paneer Dosa</span></div><span class="item-price">AED 16</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Schezwan Cheese Dosa</span></div><span class="item-price">AED 16</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Jini Dosa</span></div><span class="item-price">AED 17</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Nutella Dosa</span></div><span class="item-price">AED 13</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Uttapam</span></div><span class="item-price">AED 12</span></div>
+            </div>
+
+            <h3 class="category-title" style="margin-top: 30px;">Bowl Of Bliss (Soups)</h3>
+            <div class="menu-grid">
+                <div class="menu-item"><div class="item-info"><span class="item-name">Hot & Sour Soup</span></div><span class="item-price">AED 17</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Tomato Soup</span></div><span class="item-price">AED 15</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Manchow Soup</span></div><span class="item-price">AED 18</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Sweet Corn Soup</span></div><span class="item-price">AED 16</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Lemon Coriander Soup</span></div><span class="item-price">AED 17</span></div>
+            </div>
+        </div>
+
+        <!-- 5. COMBOS & INDO-CHINESE -->
+        <div id="combos" class="menu-category-panel">
+            <h3 class="category-title">Hum Saath Saath Hain (Combos)</h3>
+            <div class="menu-grid">
+                <div class="menu-item"><div class="item-info"><span class="item-name">Rajma Chawal</span></div><span class="item-price">AED 16</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Chhole Chawal</span></div><span class="item-price">AED 16</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Kadhi Chawal</span></div><span class="item-price">AED 15</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Dal Chawal</span></div><span class="item-price">AED 15</span></div>
+                <div class="menu-item">
+                    <div class="item-info">
+                        <span class="item-name">Kulcha Combo (Aloo/Pyaaz/Gobhi)</span>
+                        <div class="item-subtext">Served with Dal Fry and Raita</div>
+                    </div>
+                    <span class="item-price">AED 24</span>
+                </div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Veg Noodles with Manchurian</span></div><span class="item-price">AED 24</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Veg Fried Rice with Manchurian</span></div><span class="item-price">AED 24</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Chilli Paneer with Fried Rice</span></div><span class="item-price">AED 26</span></div>
+                <div class="menu-item">
+                    <div class="item-info">
+                        <span class="item-name">Chinese Platter</span>
+                        <div class="item-subtext">Fried Rice, Noodles, Manchurian, Spring Roll</div>
+                    </div>
+                    <span class="item-price">AED 29</span>
+                </div>
+            </div>
+
+            <h3 class="category-title" style="margin-top: 30px;">Chandni Chowk to China</h3>
+            <div class="menu-grid">
+                <div class="menu-item"><div class="item-info"><span class="item-name">Chilli Paneer (Dry/Gravy)</span></div><span class="item-price">AED 18</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Chilli Gobhi (Dry/Gravy)</span></div><span class="item-price">AED 17</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Chilli Mushroom (Dry/Gravy)</span></div><span class="item-price">AED 18</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Veg Manchurian (Dry/Gravy)</span></div><span class="item-price">AED 18</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Gobhi Manchurian (Dry/Gravy)</span></div><span class="item-price">AED 17</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Veg Spring Roll (6 pcs)</span></div><span class="item-price">AED 18</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Chilli Potato</span></div><span class="item-price">AED 17</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Honey Chilli Potato</span></div><span class="item-price">AED 19</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Veg Noodles</span></div><span class="item-price">AED 16</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Hakka Noodles</span></div><span class="item-price">AED 18</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Singapore Noodles</span></div><span class="item-price">AED 18</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Chilli Garlic Noodles</span></div><span class="item-price">AED 17</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Veg Fried Rice</span></div><span class="item-price">AED 18</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Singapore Veg Rice</span></div><span class="item-price">AED 18</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Red Sauce Pasta</span></div><span class="item-price">AED 17</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">White Sauce Pasta</span></div><span class="item-price">AED 19</span></div>
+            </div>
+
+            <h3 class="category-title" style="margin-top: 30px;">Chulbul Chawal</h3>
+            <div class="menu-grid">
+                <div class="menu-item"><div class="item-info"><span class="item-name">Plain Rice</span></div><span class="item-price">AED 8</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Jeera Rice</span></div><span class="item-price">AED 10</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Matar Pulao</span></div><span class="item-price">AED 12</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Veg Pulao</span></div><span class="item-price">AED 14</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Veg Biryani with Raita</span></div><span class="item-price">AED 18</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Curd Rice</span></div><span class="item-price">AED 14</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Lemon Rice</span></div><span class="item-price">AED 13</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Dal Khichdi</span></div><span class="item-price">AED 12</span></div>
+            </div>
+
+            <h3 class="category-title" style="margin-top: 30px;">Thalis</h3>
+            <div class="menu-grid">
+                <div class="menu-item">
+                    <div class="item-info">
+                        <span class="item-name">Deluxe Thali</span>
+                        <div class="item-subtext">Paneer sabji, Mix Veg, Dal, 2 Tandoori Roti, Rice, Raita, 1 Sweet, Papad, Salad</div>
+                    </div>
+                    <span class="item-price">AED 24</span>
+                </div>
+                <div class="menu-item">
+                    <div class="item-info">
+                        <span class="item-name">Mini Thali</span>
+                        <div class="item-subtext">Chhole, Veg dish of the day, Dal, 2 Tandoori Roti, Rice, Raita, Salad</div>
+                    </div>
+                    <span class="item-price">AED 18</span>
+                </div>
+                <div class="menu-item">
+                    <div class="item-info">
+                        <span class="item-name">Lunch Thali</span>
+                        <div class="item-subtext">Unlimited per person (no sharing). Mon-Fri, 1:00 PM - 3:00 PM</div>
+                    </div>
+                    <span class="item-price">AED 20</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 6. DRINKS, TEA & COFFEE -->
+        <div id="drinks" class="menu-category-panel">
+            <h3 class="category-title">Refreshing Sips (Cold Beverages)</h3>
+            <div class="menu-grid">
+                <div class="menu-item"><div class="item-info"><span class="item-name">Orange / Watermelon Juice</span></div><span class="item-price">AED 12</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Pineapple Juice</span></div><span class="item-price">AED 14</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Banana / Cold Coffee / Rose Lassi</span></div><span class="item-price">AED 12</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Chocolate / Mango / Dry Fruit Lassi</span></div><span class="item-price">AED 14</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Sattu Shake (Sweet/Salted)</span></div><span class="item-price">AED 10</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Lassi / Chhach / Hot Chocolate</span></div><span class="item-price">AED 10</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Pepsi Masala</span></div><span class="item-price">AED 9</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Khus Sharbat / Jaljeera Soda</span></div><span class="item-price">AED 8 / 10</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Bollywood Special Shikanji / Fresh Lime Soda</span></div><span class="item-price">AED 10</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Virgin Mojito / Orange Mojito</span></div><span class="item-price">AED 12 / 14</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Big Water / Small Water / Soft Drinks</span></div><span class="item-price">AED 4 / 2 / 5</span></div>
+            </div>
+
+            <h3 class="category-title" style="margin-top: 30px;">Chai Shai (Teas & Coffee)</h3>
+            <div class="menu-grid">
+                <div class="menu-item"><div class="item-info"><span class="item-name">Normal Chai</span></div><span class="item-price">AED 2</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Masala Chai</span></div><span class="item-price">AED 4</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Ginger Chai</span></div><span class="item-price">AED 3</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Cardamom Chai</span></div><span class="item-price">AED 5</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Zafrani Chai</span></div><span class="item-price">AED 6</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Sulaimani Tea / Lemon / Green Tea</span></div><span class="item-price">AED 2</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Maska Bun with Chai</span></div><span class="item-price">AED 7</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Parle G with Chai</span></div><span class="item-price">AED 5</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Coffee / Black Coffee</span></div><span class="item-price">AED 6 / 4</span></div>
+            </div>
+
+            <h3 class="category-title" style="margin-top: 30px;">Kuch Meetha Ho Jaye</h3>
+            <p style="font-size: 0.9rem; font-weight: 600; line-height: 1.5;">Explore a dynamic variety of Indian sweets directly at our display counter!</p>
+        </div>
+
+        <!-- 7. KIDS, WEEKEND & SEASONS -->
+        <div id="kids-weekend" class="menu-category-panel">
+            <h3 class="category-title">Kid's Special</h3>
+            <div class="menu-grid">
+                <div class="menu-item"><div class="item-info"><span class="item-name">French Fries / Potato Wedges</span></div><span class="item-price">AED 9</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Fryums</span></div><span class="item-price">AED 8</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Mozzarella Sticks (5 pcs)</span></div><span class="item-price">AED 10</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Maska Bun with Nutella</span></div><span class="item-price">AED 8</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Maska Bun with Jam</span></div><span class="item-price">AED 7</span></div>
+            </div>
+
+            <h3 class="category-title" style="margin-top: 30px;">Bhukkad Bites (Heavy Snacks)</h3>
+            <div class="menu-grid">
+                <div class="menu-item"><div class="item-info"><span class="item-name">Pav Bhaji</span></div><span class="item-price">AED 17</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Cheese / Paneer Pav Bhaji</span></div><span class="item-price">AED 19</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Chole Bhature</span></div><span class="item-price">AED 19</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Poori Bhaji</span></div><span class="item-price">AED 14</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Litti Chokha</span></div><span class="item-price">AED 15</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Dal Baati Churma</span></div><span class="item-price">AED 24</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Gobhi / Aloo / Onion / Sattu Paratha with Raita</span></div><span class="item-price">AED 12</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Cheese / Paneer Paratha with Raita</span></div><span class="item-price">AED 14</span></div>
+            </div>
+
+            <h3 class="category-title" style="margin-top: 30px;">Weekend Specials</h3>
+            <div class="menu-grid">
+                <div class="menu-item"><div class="item-info"><span class="item-name">Pyaaz Kachori</span></div><span class="item-price">AED 5</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Bedmi Puri with Aloo Sabji</span></div><span class="item-price">AED 15</span></div>
+            </div>
+
+            <h3 class="category-title" style="margin-top: 30px;">Jab Season Meets Flavors</h3>
+            <div class="menu-grid">
+                <div class="menu-item"><div class="item-info"><span class="item-name">Makki ki Roti with Sarson ka Saag</span></div><span class="item-price">AED 20</span></div>
+                <div class="menu-item"><div class="item-info"><span class="item-name">Aamras Puri</span></div><span class="item-price">AED 20</span></div>
+            </div>
+        </div>
+
+        <!-- Footnotes -->
+        <div class="notice-banner">
+            * All rates are inclusive of VAT.<br>
+            * Minimum preparation time for select specials: 20 minutes.<br>
+            * Jain / Vegan options are also available. Ask our server!
+        </div>
+
+        
+
+    <!-- JavaScript: scroll-spy only. Tab clicks are handled natively via
+         <a href="#id"> anchors + the global `scroll-behavior: smooth`,
+         so navigation still works even if this script fails to load. -->
+    <script>
+        // Intersection Observer (Scroll Spy)
+        // Detects which section is currently at the top of the viewport
+        const observerOptions = {
+            root: null, // Viewport
+            rootMargin: '-120px 0px -70% 0px', // Triggers accurately when sections occupy screen center-top
+            threshold: 0
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const id = entry.target.getAttribute('id');
+                    
+                    // Remove 'active' state from all buttons
+                    document.querySelectorAll('.tab-btn').forEach(btn => {
+                        btn.classList.remove('active');
+                    });
+
+                    // Add 'active' state to the matching button
+                    const activeBtn = document.querySelector(`.tab-btn[data-target="${id}"]`);
+                    if (activeBtn) {
+                        activeBtn.classList.add('active');
+                        
+                        // Automatically slide the tab bar horizontally to keep the active button in view
+                        activeBtn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+                    }
+                }
+            });
+        }, observerOptions);
+
+        // Tell the observer to watch all menu panels
+        document.querySelectorAll('.menu-category-panel').forEach(section => {
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>
